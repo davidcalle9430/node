@@ -7,7 +7,6 @@ var socket = new server({
 
 socket.on('request', function(request) {
     var connection = request.accept(null, request.origin);
-    console.log(request.origin);
     connection.on('message', function(message) {
         console.log(message.utf8Data);
         connection.sendUTF('hello');
