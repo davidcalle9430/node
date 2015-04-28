@@ -6,12 +6,13 @@ var socket = new server({
 
 socket.on('request', function(request) {
     var connection = request.accept(null, request.origin);
-
+    var cantidad=0;
     connection.on('message', function(message) {
         console.log(message.utf8Data);
         connection.sendUTF('hello');
         setTimeout(function() {
-            connection.sendUTF('this is a websocket example');
+            connection.sendUTF('Hola, eres el usuario '+ cantidad);
+            cantidad++;
         }, 1000);
     });
 
