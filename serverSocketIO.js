@@ -24,7 +24,7 @@ io.on('connection', function(socket){
 
   	socket.on('chat_message', function(msg){
     console.log( "el usuario "+ socket.id + ' envía message: ' + msg);
-    io.emit('chat message', msg);
+    io.emit('chat_message', msg);
  	});
 
  	socket.on('disconnect', function(){
