@@ -12,10 +12,10 @@ io.on('connection', function(socket){
 	console.log("usuarios actuales");
 	for (var i in clients) {
 		console.log(i);
-	}
-   clients.push(socket.index);
+	};
+
   socket.on('chat message', function(msg){
-  	
+  	clients.push(socket.index);
     console.log( "el usuario "+ socket.id + ' envía message: ' + msg);
     io.emit('chat message', msg);
   });
