@@ -13,7 +13,8 @@ io.on('connection', function(socket){
 	for (var i in clients) {
 		console.log(clients[i]);
 	}
-   clients.push(socket.index);
+	//esto debería ser algo del estilo de clientes[username]= socket.id
+   clients.push(socket.id);
   socket.on('chat message', function(msg){
   	
     console.log( "el usuario "+ socket.id + ' envía message: ' + msg);
