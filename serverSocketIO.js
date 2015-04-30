@@ -32,7 +32,7 @@ io.on('connection', function(socket){
      // borrarDatos();
  	});
 
- 	socket.on('start session', function(msg){
+ 	socket.on('start_session', function(msg){
      // ingresarDatos();
  	});
 
