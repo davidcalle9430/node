@@ -11,7 +11,7 @@ io.on('connection', function(socket){
 
 	console.log("usuarios actuales");
 	for (var i in clients) {
-		console.log(i);
+		console.log(clients[i]);
 	}
    clients.push(socket.index);
   socket.on('chat message', function(msg){
