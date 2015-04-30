@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var clients =[];
-var activeSockets[];
+var activeSockets=[];
 var messagesQueue=[];
 /*En este Queue se meten todos lso mensajes que que no se pudieron enviar ya que no existía un client[user] */
 /*La llave valor debería ser username => socket */
