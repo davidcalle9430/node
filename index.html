@@ -25,7 +25,10 @@
 <script>
   var socket = io();
   $('form').submit(function(){
-    socket.emit('chat message', $('#m').val());
+    socket.emit('chat message', 
+        { "message":$('#m').val()
+        ,"username": "getUsername()"
+        });
     $('#m').val('');
     return false;
   });
