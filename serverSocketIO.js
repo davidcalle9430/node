@@ -18,6 +18,7 @@ io.on('connection', function(socket){
     	var receiver= msg.reciever;
     	console.log("se va a enviar el mensaje de " + sender + " "+ receiver);
     	//io.sockets.socket(clients[socket.id]).emit();
+    	io.emit('chat_message', "mensaje X");
     	io.emit('chat_message', msg);
  	});
 
