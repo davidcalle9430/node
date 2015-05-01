@@ -23,8 +23,8 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-  var socket = io();
-  socket.connect('http://178.62.233.249:3000/');
+
+  var socket = io('http://178.62.233.249:3000/');
   socket.emit('start_session',
               ,{"username": "1"});
 

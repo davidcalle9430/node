@@ -23,9 +23,18 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-  var socket = io();
+
+  var socket = io('http://178.62.233.249:3000/');
+  socket.emit('start_session',
+              ,{"username": "1"});
+
   $('form').submit(function(){
-    socket.emit('chat_message', $('#m').val());
+    socket.emit('chat_message',
+                {
+                  "msg":$('#m').val(),
+                  "sender": "2",
+                  "receiver": "1"
+                });
     $('#m').val('');
     return false;
   });
