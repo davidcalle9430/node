@@ -23,18 +23,9 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-
   var socket = io();
-  socket.emit('start_session',
-              ,{username: "1"});
-
   $('form').submit(function(){
-    socket.emit('chat_message',
-                {
-                  msg:$('#m').val(),
-                  sender: "2",
-                  receiver: "1"
-                });
+    socket.emit('chat_message', $('#m').val());
     $('#m').val('');
     return false;
   });
