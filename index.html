@@ -31,9 +31,9 @@
   $('form').submit(function(){
     socket.emit('chat_message',
                 {
-                  "msg":$('#m').val(),
-                  "sender": "2",
-                  "receiver": "1"
+                  msg:$('#m').val(),
+                  sender: "2",
+                  receiver: "1"
                 });
     $('#m').val('');
     return false;
