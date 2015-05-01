@@ -11,11 +11,12 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
-	
+	console.log("Se ha conectado un usuario");
 	
    	socket.on('chat_message', function(msg){
     	var sender= msg.sender;
     	var receiver= msg.reciever;
+    	console.log("se va a enviar el mensaje de " + sender + " "+ reciever);
     	//io.sockets.socket(clients[socket.id]).emit();
     	io.emit('chat_message', msg);
  	});
@@ -26,10 +27,11 @@ io.on('connection', function(socket){
  		delete clients[username];
  		delete activeSockets[socket.id];
  		
-
+ 		console.log("Se desconectado un usuario");
  	});
 
  	socket.on('start_session', function(msg){
+ 		console.log('se ha enviado un mensaje de inicio de sesión');
 		clients[msg.username]=socket.id;
 		activeSockets[socket.id]=msg.username;
  	});
