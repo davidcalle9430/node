@@ -14,11 +14,11 @@ io.on('connection', function(socket){
 	console.log("Se ha conectado un usuario");
 	
    	socket.on('chat_message', function(msg){
-    	var sender= msg.sender;
+    	/*var sender= msg.sender;
     	var receiver= msg.reciever;
     	console.log("se va a enviar el mensaje de " + sender + " "+ receiver);
     	//io.sockets.socket(clients[socket.id]).emit();
-
+        */
     	io.sockets.socket(clients["1"]).emit('chat_message', msg);
  	});
 
