@@ -19,7 +19,7 @@ io.on('connection', function(socket){
     	console.log("se va a enviar el mensaje de " + sender + " "+ receiver);
     	//io.sockets.socket(clients[socket.id]).emit();
         */
-    	io.sockets.socket(clients["1"]).emit('chat_message', msg);
+    	io.to(clients["1"]).emit('chat_message', msg);
  	});
 
  	socket.on('disconnect', function(){
