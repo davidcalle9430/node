@@ -32,10 +32,14 @@ io.on('connection', function(socket){
  	});
 
  	socket.on('start_session', function(msg){
- 		console.log('se ha enviado un mensaje de inicio de sesión');
+ 		
  		var m = JSON.parse(msg);
+ 		console.log('IS username ' +m.username + ' socket '+socket.id );
 		clients[m.username]=socket.id;
 		activeSockets[socket.id]=m.username;
+		//usuarios activos
+
+
  	});
 
 
