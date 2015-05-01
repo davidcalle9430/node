@@ -26,7 +26,7 @@
 
   var socket = io();
   socket.emit('start_session',
-              ,{"username": "1"});
+              ,{username: "1"});
 
   $('form').submit(function(){
     socket.emit('chat_message',
