@@ -18,17 +18,14 @@ io.on('connection', function(socket){
     	var receiver= msg.reciever;
     	console.log("se va a enviar el mensaje de " + sender + " "+ receiver);
     	//io.sockets.socket(clients[socket.id]).emit();
-    	io.emit('chat_message', "mensaje X");
-    	io.emit('chat_message', msg);
+
+    	io.sockets.socket(clients["1"]).emit('chat_message', msg);
  	});
 
  	socket.on('disconnect', function(){
- 		console.log("el usuario se ha desconectado");
  		var username = activeSockets[socket.id];
  		delete clients[username];
  		delete activeSockets[socket.id];
- 		
- 		console.log("Se desconectado un usuario");
  	});
 
  	socket.on('start_session', function(msg){
