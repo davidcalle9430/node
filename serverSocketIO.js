@@ -33,8 +33,9 @@ io.on('connection', function(socket){
 
  	socket.on('start_session', function(msg){
  		console.log('se ha enviado un mensaje de inicio de sesión');
-		clients[msg.username]=socket.id;
-		activeSockets[socket.id]=msg.username;
+ 		var m = JSON.parse(msg);
+		clients[m.username]=socket.id;
+		activeSockets[socket.id]=m.username;
  	});
 
 
