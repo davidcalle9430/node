@@ -15,6 +15,7 @@ io.on('connection', function(socket){
 
 	console.log("Se ha conectado un usuario");
    	socket.on('chat_message', function(msg){
+		   console.log("envían un mensaje de chat");
     	var message=JSON.parse(msg);
     	var receiver= message.receiver;
     	
@@ -28,6 +29,7 @@ io.on('connection', function(socket){
  	});
 
  	socket.on('notification', function(msg){
+		 console.log("envían un mensaje notification");
     	var message=JSON.parse(msg);
     	var receiver= message.receiver;
     	io.to(clients[receiver]).emit('notification', msg);
@@ -35,15 +37,16 @@ io.on('connection', function(socket){
 
  	socket.on('disconnect', function(){
  		var username = activeSockets[socket.id];
+		console.log("El usuario "+ username+ " se ha desconectado");
  		delete clients[username];
  		delete activeSockets[socket.id];
  	});
 
  	socket.on('start_session', function(msg){
+		console.log("envían un mensaje start_session");
  		var m = JSON.parse(msg);
 		clients[m.username]=socket.id;
 		activeSockets[socket.id]=m.username;
-		//usuarios activos
  	});
 });
 
