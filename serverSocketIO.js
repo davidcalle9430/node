@@ -11,15 +11,26 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
+
+
 	console.log("Se ha conectado un usuario");
-	
    	socket.on('chat_message', function(msg){
-    	/*var sender= msg.sender;
-    	var receiver= msg.reciever;
-    	console.log("se va a enviar el mensaje de " + sender + " "+ receiver);
-    	//io.sockets.socket(clients[socket.id]).emit();
-        */
-    	io.to(clients["1"]).emit('chat_message', msg);
+    	var message=JSON.parse(msg);
+    	var receiver= message.receiver;
+    	
+    	if(typeof(clients[receiver]) != "undefined"){
+    	io.to(clients[receiver]).emit('chat_message', msg);
+    	//add mysql insert message status received
+    	}else{
+    	//add mysql insert message status not read
+    	}
+
+ 	});
+
+ 	socket.on('notification', function(msg){
+    	var message=JSON.parse(msg);
+    	var receiver= message.receiver;
+    	io.to(clients[receiver]).emit('notification', msg);
  	});
 
  	socket.on('disconnect', function(){
@@ -29,20 +40,11 @@ io.on('connection', function(socket){
  	});
 
  	socket.on('start_session', function(msg){
- 		
  		var m = JSON.parse(msg);
- 		console.log('IS username ' +m.username + ' socket '+socket.id );
 		clients[m.username]=socket.id;
 		activeSockets[socket.id]=m.username;
 		//usuarios activos
-
-
  	});
-
-
-
-  	
-
 });
 
 
