@@ -33,6 +33,7 @@ io.on('connection', function (socket) {
 
   // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
+     console.log("add user");
     // we store the username in the socket session for this client
     socket.username = username;
     // add the client's username to the global list
@@ -51,6 +52,7 @@ io.on('connection', function (socket) {
 
   // when the client emits 'typing', we broadcast it to others
   socket.on('typing', function () {
+     console.log("typing");
     socket.broadcast.emit('typing', {
       username: socket.username
     });
@@ -58,6 +60,7 @@ io.on('connection', function (socket) {
 
   // when the client emits 'stop typing', we broadcast it to others
   socket.on('stop typing', function () {
+    console.log("stop typing");
     socket.broadcast.emit('stop typing', {
       username: socket.username
     });
@@ -65,6 +68,7 @@ io.on('connection', function (socket) {
 
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
+    console.log("disconnect");
     // remove the username from global usernames list
     if (addedUser) {
       delete usernames[socket.username];
