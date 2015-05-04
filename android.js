@@ -31,9 +31,11 @@ io.on('connection', function (socket) {
       username: socket.username,
       message: data
     });
+
+
+
   });
 
-  // when the client emits 'add user', this listens and executes
   socket.on('add user', function (username) {
      console.log("add user");
     // we store the username in the socket session for this client
@@ -54,7 +56,7 @@ io.on('connection', function (socket) {
 
   console.log("Se ha conectado un usuario");
     socket.on('chat_message', function(msg){
-       console.log("envían un mensaje de chat");
+      console.log("envían un mensaje de chat");
       var message=JSON.parse(msg);
       var receiver= message.receiver;
       
@@ -69,8 +71,8 @@ io.on('connection', function (socket) {
    
    socket.on('new message', function (data) {
     // we tell the client to execute 'new message'
-  console.log("llega un mensaje new message ");
-      socket.broadcast.emit('new message', {
+   console.log("llega un mensaje new message ");
+   socket.broadcast.emit('new message', {
           username: socket.username,
           message: data
       });
@@ -96,6 +98,9 @@ io.on('connection', function (socket) {
     clients[m.username]=socket.id;
     activeSockets[socket.id]=m.username;
   });
+
+  // when the client emits 'add user', this listens and executes
+
 
   // when the client emits 'typing', we broadcast it to others
   
