@@ -3,6 +3,9 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
+var clients =[];
+var activeSockets=[];
+var messagesQueue=[];
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -49,35 +52,51 @@ io.on('connection', function (socket) {
     });
   });
 
-  // when the client emits 'typing', we broadcast it to others
-  socket.on('typing', function () {
-     console.log("typing");
-    socket.broadcast.emit('typing', {
-      username: socket.username
-    });
+  console.log("Se ha conectado un usuario");
+    socket.on('chat_message', function(msg){
+       console.log("envían un mensaje de chat");
+      var message=JSON.parse(msg);
+      var receiver= message.receiver;
+      
+      if(typeof(clients[receiver]) != "undefined"){
+      io.to(clients[receiver]).emit('chat_message', msg);
+      //add mysql insert message status received
+      }else{
+      //add mysql insert message status not read
+      }
+
   });
-
-  // when the client emits 'stop typing', we broadcast it to others
-  socket.on('stop typing', function () {
-    console.log("stop typing");
-    socket.broadcast.emit('stop typing', {
-      username: socket.username
-    });
-  });
-
-  // when the user disconnects.. perform this
-  socket.on('disconnect', function () {
-    console.log("disconnect");
-    // remove the username from global usernames list
-    if (addedUser) {
-      delete usernames[socket.username];
-      --numUsers;
-
-      // echo globally that this client has left
-      socket.broadcast.emit('user left', {
-        username: socket.username,
-        numUsers: numUsers
+   
+   socket.on('new message', function (data) {
+    // we tell the client to execute 'new message'
+  console.log("llega un mensaje new message ");
+      socket.broadcast.emit('new message', {
+          username: socket.username,
+          message: data
       });
-    }
+    });
+
+  socket.on('notification', function(msg){
+     console.log("envían un mensaje notification");
+      var message=JSON.parse(msg);
+      var receiver= message.receiver;
+      io.to(clients[receiver]).emit('notification', msg);
   });
+
+  socket.on('disconnect', function(){
+    var username = activeSockets[socket.id];
+    console.log("El usuario "+ username+ " se ha desconectado");
+    delete clients[username];
+    delete activeSockets[socket.id];
+  });
+
+  socket.on('start_session', function(msg){
+    console.log("envían un mensaje start_session");
+    var m = JSON.parse(msg);
+    clients[m.username]=socket.id;
+    activeSockets[socket.id]=m.username;
+  });
+
+  // when the client emits 'typing', we broadcast it to others
+  
 });
