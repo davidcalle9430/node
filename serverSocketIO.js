@@ -51,6 +51,13 @@ io.on('connection', function(socket){
  		delete activeSockets[socket.id];
  	});
 
+ 	socket.on('add user ', function(){
+ 		var username = activeSockets[socket.id];
+		console.log("hay un add user");
+ 		delete clients[username];
+ 		delete activeSockets[socket.id];
+ 	});
+
  	socket.on('start_session', function(msg){
 		console.log("envían un mensaje start_session");
  		var m = JSON.parse(msg);
