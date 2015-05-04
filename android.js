@@ -9,7 +9,6 @@ server.listen(port, function () {
 });
 
 // Routing
-app.use('/');
 
 // Chatroom
 
