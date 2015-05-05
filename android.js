@@ -38,16 +38,15 @@ io.on('connection', function (socket) {
 
   socket.on('add user', function (username) {
      console.log("add user");
-    // we store the username in the socket session for this client
+
     socket.username = username;
-    // add the client's username to the global list
+
     usernames[username] = username;
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
       numUsers: numUsers
     });
-    // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
       username: socket.username,
       numUsers: numUsers
@@ -93,15 +92,10 @@ io.on('connection', function (socket) {
   });
 
   socket.on('start_session', function(msg){
-    console.log("envían un mensaje start_session");
+    console.log("envían un mensaje start_session" +msg);
     var m = JSON.parse(msg);
     clients[m.username]=socket.id;
     activeSockets[socket.id]=m.username;
   });
-
-  // when the client emits 'add user', this listens and executes
-
-
-  // when the client emits 'typing', we broadcast it to others
   
 });
