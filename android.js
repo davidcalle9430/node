@@ -95,8 +95,13 @@ io.on('connection', function (socket) {
     
     var m = msg;
     console.log("envían un mensaje start_session para "+ m.username);
+
     clients[m.username]=socket.id;
     activeSockets[socket.id]=m.username;
+
+    io.to(clients[m.username]).emit('starsession', m.username+ " está conectado");
+
+
   });
   
 });
