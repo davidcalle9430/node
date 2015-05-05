@@ -99,7 +99,7 @@ io.on('connection', function (socket) {
     clients[m.username]=socket.id;
     activeSockets[socket.id]=m.username;
 
-    io.to(clients[m.username]).emit('start_session', m.username+ " está conectado");
+    io.to(clients[m.username]).emit('response_start_session', m.username+ " está conectado");
 
 
   });
