@@ -92,8 +92,8 @@ io.on('connection', function (socket) {
   });
 
   socket.on('start_session', function(msg){
-    console.log("envían un mensaje start_session" +msg);
-    var m = JSON.parse(msg);
+    console.log("envían un mensaje start_session" + msg);
+    var m = msg;
     clients[m.username]=socket.id;
     activeSockets[socket.id]=m.username;
   });
