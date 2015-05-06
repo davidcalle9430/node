@@ -56,7 +56,7 @@ io.on('connection', function (socket) {
   console.log("Se ha conectado un usuario");
     socket.on('chat_message', function(msg){
       console.log("envían un mensaje de chat");
-      var message=JSON.parse(msg);
+      var message=msg;
       var receiver= message.receiver;
     
       
@@ -96,18 +96,19 @@ io.on('connection', function (socket) {
 
     clients[m.username]=socket.id;
     activeSockets[socket.id]=m.username;
-
+    console.log("meto en active sockets "+activeSockets[socket.id]);
 
     var return_list = [];
 
     activeSockets.forEach(
       function(user){
+        console.log("entra al for each");
          return_list.push(user);
       }
     );
 
 
-    io.to(clients[m.username]).emit('response_start_session', JSON.stringify({users:return_list}));
+    io.to(clients[m.username]).emit('response_start_session', JSON.stringify({users:return_list}))  ;
 
 
   });
