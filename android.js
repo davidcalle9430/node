@@ -4,8 +4,8 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
 var clients =[];
-var activeSockets=[];
-var messagesQueue=[];
+var activeSockets={};
+var messagesQueue={};
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -100,12 +100,11 @@ io.on('connection', function (socket) {
 
     var return_list = [];
 
-    activeSockets.forEach(
-      function(user){
-        console.log("entra al for each");
-         return_list.push(user);
-      }
-    );
+
+    for(key in activeSockets){
+      console.log("el in funciona");
+      return_list.push(activeSockets[key]);
+    }
 
 
     io.to(clients[m.username]).emit('response_start_session', JSON.stringify({users:return_list}))  ;
