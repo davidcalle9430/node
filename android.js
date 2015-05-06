@@ -58,6 +58,7 @@ io.on('connection', function (socket) {
       console.log("envían un mensaje de chat");
       var message=JSON.parse(msg);
       var receiver= message.receiver;
+    
       
       if(typeof(clients[receiver]) != "undefined"){
       io.to(clients[receiver]).emit('chat_message', msg);
@@ -85,10 +86,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('disconnect', function(){
-    var username = activeSockets[socket.id];
-    console.log("El usuario "+ username+ " se ha desconectado");
-    delete clients[username];
-    delete activeSockets[socket.id];
+   
   });
 
   socket.on('start_session', function(msg){
@@ -99,7 +97,17 @@ io.on('connection', function (socket) {
     clients[m.username]=socket.id;
     activeSockets[socket.id]=m.username;
 
-    io.to(clients[m.username]).emit('response_start_session', m.username+ " está conectado");
+
+    var return_list = [];
+
+    activeSockets.forEach(
+      function(user){
+         return_list.push(user);
+      }
+    );
+
+
+    io.to(clients[m.username]).emit('response_start_session', JSON.stringify({users:return_list}));
 
 
   });
