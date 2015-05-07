@@ -86,30 +86,25 @@ io.on('connection', function (socket) {
   });
 
   socket.on('disconnect', function(){
-   
+    var username = activeSockets[socket.id];
+    console.log("El usuario "+ username+ " se ha desconectado");
+    socket.broadcast.emit('disconnect',{user:username});
+    delete clients[username];
+    delete activeSockets[socket.id];
   });
 
   socket.on('start_session', function(msg){
-    
     var m = msg;
     console.log("envían un mensaje start_session para "+ m.username);
-
     clients[m.username]=socket.id;
     activeSockets[socket.id]=m.username;
-    console.log("meto en active sockets "+activeSockets[socket.id]);
-
     var return_list = [];
 
-
     for(key in activeSockets){
-      console.log("el in funciona");
       return_list.push(activeSockets[key]);
     }
 
-
-    io.to(clients[m.username]).emit('response_start_session', JSON.stringify({users:return_list}))  ;
-
-
+    io.to(clients[m.username]).emit('response_start_session', JSON.stringify({users:return_list}));
   });
   
 });
