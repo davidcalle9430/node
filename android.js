@@ -7,6 +7,16 @@ var clients =[];
 var activeSockets={};
 var messagesQueue={};
 
+
+var mySQL= require('mysql');
+var connection = mySQL.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'anarky7',
+  database : 'rawrdbPrueba'
+});
+
+
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
 });
@@ -20,6 +30,7 @@ var usernames = {};
 var numUsers = 0;
 
 io.on('connection', function (socket) {
+  console.log("conexión del socket "+ socket);
   var addedUser = false;
   console.log("se conecta");
 
@@ -61,10 +72,35 @@ io.on('connection', function (socket) {
     
       
       if(typeof(clients[receiver]) != "undefined"){
+      console.log("el receptor está conectado y se le envía el mensaje");
       io.to(clients[receiver]).emit('chat_message', msg);
+
       //add mysql insert message status received
+      /*
+      connection.connect();
+      connection.query('SELECT * from User', function(err, rows, fields) {
+        if (!err)
+          console.log('The solution is: ', rows);
+        else{
+          console.log(err);
+          console.log('Error while performing Query.');
+        }
+      });
+      connection.end();
+      */
       }else{
-      //add mysql insert message status not read
+      /*
+      connection.connect();
+      connection.query('SELECT * from User', function(err, rows, fields) {
+        if (!err)
+          console.log('The solution is: ', rows);
+        else{
+          console.log(err);
+          console.log('Error while performing Query.');
+        }
+      });
+      connection.end();
+      */
       }
 
   });
