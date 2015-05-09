@@ -122,11 +122,17 @@ io.on('connection', function (socket) {
   });
 
   socket.on('disconnect', function(){
+
+
+
+
     var username = activeSockets[socket.id];
     console.log("El usuario "+ username+ " se ha desconectado");
-    socket.broadcast.emit('disconnect',{user:username});
+    
     delete clients[username];
     delete activeSockets[socket.id];
+    console.log("prueba "+ clients[username]+ "-"+activeSockets[socket.id]):
+    socket.broadcast.emit('disconnect',{user:username});
   });
 
   socket.on('start_session', function(msg){
