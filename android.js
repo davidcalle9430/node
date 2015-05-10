@@ -44,11 +44,14 @@ io.on('connection', function (socket) {
       console.log("el receptor está conectado y se le envía el mensaje");
       io.to(clients[receiver]).emit('chat_message', msg);
 
-      /*
+      
       connection.connect();
       connection.query('INSERT INTO Message(status,text,username_receiver, username_sender)
-        values(\''+
-         \')'
+                        values(\'read\' ,\''+message.message+',\''+message.receiver+'\''+',\''+message.sender+'\')');
+
+
+
+
         ,function(err, rows, fields) {
         if (!err)
           console.log('Mensaje enviado y almacenado');
@@ -59,7 +62,7 @@ io.on('connection', function (socket) {
         }
       });
       connection.end();
-     */
+     
       }else{
         console.log("mensaje a alguien no conectado");
       /*
