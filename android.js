@@ -12,7 +12,7 @@ var mySQL= require('mysql');
 var connection = mySQL.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : 'anarky7',
+  password : 'tgisispuj',
   database : 'rawrdbPrueba'
 });
 
@@ -42,7 +42,7 @@ io.on('connection', function (socket) {
       
       if(typeof(clients[receiver]) != "undefined"){
       console.log("el receptor está conectado y se le envía el mensaje");
-      io.to(clients[receiver]).emit('chat_message', msg);
+      
 
       
       connection.connect();
