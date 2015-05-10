@@ -31,38 +31,7 @@ var numUsers = 0;
 
 io.on('connection', function (socket) {
   console.log("conexión del socket "+ socket);
-  var addedUser = false;
-  console.log("se conecta");
-
-  // when the client emits 'new message', this listens and executes
-  socket.on('new message', function (data) {
-    // we tell the client to execute 'new message'
-	console.log("manda un new message");
-    socket.broadcast.emit('new message', {
-      username: socket.username,
-      message: data
-    });
-
-
-
-  });
-
-  socket.on('add user', function (username) {
-     console.log("add user");
-
-    socket.username = username;
-
-    usernames[username] = username;
-    ++numUsers;
-    addedUser = true;
-    socket.emit('login', {
-      numUsers: numUsers
-    });
-    socket.broadcast.emit('user joined', {
-      username: socket.username,
-      numUsers: numUsers
-    });
-  });
+  
 
   console.log("Se ha conectado un usuario");
     socket.on('chat_message', function(msg){
@@ -75,20 +44,24 @@ io.on('connection', function (socket) {
       console.log("el receptor está conectado y se le envía el mensaje");
       io.to(clients[receiver]).emit('chat_message', msg);
 
-      //add mysql insert message status received
       /*
       connection.connect();
-      connection.query('SELECT * from User', function(err, rows, fields) {
+      connection.query('INSERT INTO Message(status,text,username_receiver, username_sender)
+        values(\''+
+         \')'
+        ,function(err, rows, fields) {
         if (!err)
-          console.log('The solution is: ', rows);
+          console.log('Mensaje enviado y almacenado');
+          io.to(clients[receiver]).emit('chat_message', msg);
         else{
           console.log(err);
-          console.log('Error while performing Query.');
+          console.log('Error al enviar el mensaje');
         }
       });
       connection.end();
-      */
+     */
       }else{
+        console.log("mensaje a alguien no conectado");
       /*
       connection.connect();
       connection.query('SELECT * from User', function(err, rows, fields) {
@@ -146,7 +119,7 @@ io.on('connection', function (socket) {
       return_list.push(activeSockets[key]);
     }
 
-    io.to(clients[m.username]).emit('response_start_session', JSON.stringify({users:return_list}));
+    io.broadcast.emit('response_start_session', JSON.stringify({users:return_list}));
   });
   
 });
