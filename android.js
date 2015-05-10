@@ -116,6 +116,7 @@ io.on('connection', function (socket) {
 
     for(key in activeSockets){
       return_list.push(activeSockets[key]);
+      console.log("está conetado " +activeSockets[key]);
     }
 
     socket.broadcast.emit('response_start_session', JSON.stringify({users:return_list}));
