@@ -61,18 +61,19 @@ io.on('connection', function (socket) {
      
       }else{
         console.log("mensaje a alguien no conectado");
-      /*
-      connection.connect();
-      connection.query('SELECT * from User', function(err, rows, fields) {
-        if (!err)
-          console.log('The solution is: ', rows);
-        else{
+       connection.connect();
+      connection.query('INSERT INTO Message SET ?',
+      {status:'unread',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
+      ,function(err, rows, fields) {
+        if (!err){
+          console.log('Mensaje enviado y almacenado');
+          io.to(clients[receiver]).emit('chat_message', msg);
+        }else{
           console.log(err);
-          console.log('Error while performing Query.');
+          console.log('Error al enviar el mensaje');
         }
       });
       connection.end();
-      */
       }
 
   });
