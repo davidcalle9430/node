@@ -49,10 +49,10 @@ io.on('connection', function (socket) {
       connection.query('INSERT INTO Message SET ?',
       {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
       ,function(err, rows, fields) {
-        if (!err)
+        if (!err){
           console.log('Mensaje enviado y almacenado');
           io.to(clients[receiver]).emit('chat_message', msg);
-        else{
+        }else{
           console.log(err);
           console.log('Error al enviar el mensaje');
         }
