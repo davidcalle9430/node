@@ -46,13 +46,9 @@ io.on('connection', function (socket) {
 
       
       connection.connect();
-      connection.query('INSERT INTO Message(status,text,username_receiver, username_sender)
-                        values(\'read\' ,\''+message.message+',\''+message.receiver+'\''+',\''+message.sender+'\')');
-
-
-
-
-        ,function(err, rows, fields) {
+      connection.query('INSERT INTO Message SET ?',
+      var values = {status:'read',text: message.message, username_receiver:message.receiver, username_sendermessage.sender}
+      ,function(err, rows, fields) {
         if (!err)
           console.log('Mensaje enviado y almacenado');
           io.to(clients[receiver]).emit('chat_message', msg);
