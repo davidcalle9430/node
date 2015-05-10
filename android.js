@@ -119,7 +119,7 @@ io.on('connection', function (socket) {
       return_list.push(activeSockets[key]);
     }
 
-    io.broadcast.emit('response_start_session', JSON.stringify({users:return_list}));
+    socket.broadcast.emit('response_start_session', JSON.stringify({users:return_list}));
   });
   
 });
