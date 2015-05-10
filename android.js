@@ -47,7 +47,7 @@ io.on('connection', function (socket) {
       
       connection.connect();
       connection.query('INSERT INTO Message SET ?',
-      var values = {status:'read',text: message.message, username_receiver:message.receiver, username_sendermessage.sender}
+      {status:'read',text: message.message, username_receiver:message.receiver, username_sendermessage.sender}
       ,function(err, rows, fields) {
         if (!err)
           console.log('Mensaje enviado y almacenado');
