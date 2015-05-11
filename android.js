@@ -15,7 +15,7 @@ var connection = mySQL.createConnection({
   password : 'tgisispuj',
   database : 'rawrdbPrueba'
 });
-
+connection.connect();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
       
 
       
-      connection.connect();
+    
       connection.query('INSERT INTO Message SET ?',
       {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
       ,function(err, rows, fields) {
@@ -58,7 +58,7 @@ io.on('connection', function (socket) {
           console.log('Error al enviar el mensaje');
         }
       });
-      connection.end();
+    
      
       }else{
         console.log("mensaje a alguien no conectado");
@@ -74,7 +74,7 @@ io.on('connection', function (socket) {
           console.log('Error al enviar el mensaje');
         }
       });
-      connection.end();
+
       }
 
   });
