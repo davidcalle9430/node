@@ -121,7 +121,7 @@ io.on('connection', function (socket) {
       console.log("está conetado " +activeSockets[key]);
     }
 
-    socket.broadcast.emit('response_start_session', JSON.stringify({users:return_list}));
+    io.broadcast.emit('response_start_session', JSON.stringify({users:return_list}));
   });
   
 });
