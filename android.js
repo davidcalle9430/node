@@ -95,7 +95,7 @@ io.on('connection', function (socket) {
       io.to(clients[receiver]).emit('notification', msg);
   });
 
-  socket.on('disconnect', function(){
+  socket.once('disconnect', function(){
 
 
 
