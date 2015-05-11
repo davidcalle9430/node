@@ -106,7 +106,7 @@ io.on('connection', function (socket) {
     delete clients[username];
     delete activeSockets[socket.id];
     console.log("prueba de borrado "+ clients[username]+ "-"+activeSockets[socket.id]);
-    io.broadcast.emit('disconnect',{user:username});
+    sockets.broadcast.emit('disconnect',{user:username});
   });
 
   socket.on('start_session', function(msg){
