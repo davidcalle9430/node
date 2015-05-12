@@ -1,4 +1,4 @@
-var express = require('express');
+ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
       
 
       
-    
+    /*
       connection.query('INSERT INTO Message SET ?',
       {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
       ,function(err, rows, fields) {
@@ -58,9 +58,11 @@ io.on('connection', function (socket) {
           console.log('Error al enviar el mensaje');
         }
       });
-    
+    */
+    io.to(clients[receiver]).emit('chat_message', msg);
      
       }else{
+        /*
         console.log("mensaje a alguien no conectado");
        connection.connect();
       connection.query('INSERT INTO Message SET ?',
@@ -74,7 +76,8 @@ io.on('connection', function (socket) {
           console.log('Error al enviar el mensaje');
         }
       });
-
+      */
+      io.to(clients[receiver]).emit('chat_message', msg);
       }
 
   });
@@ -105,7 +108,6 @@ io.on('connection', function (socket) {
     
     delete clients[username];
     delete activeSockets[socket.id];
-    console.log("prueba de borrado "+ clients[username]+ "-"+activeSockets[socket.id]);
     socket.broadcast.emit('disconnect',{user:username});
   });
 
