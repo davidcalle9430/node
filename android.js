@@ -119,6 +119,7 @@ io.on('connection', function (socket) {
     var m = msg;
     console.log("envían un mensaje start_session para "+ m.username);
     clients[m.username]=socket.id;
+    console.log("ahora en clients está "+ clients[m.username]);
     activeSockets[socket.id]=m.username;
     var return_list = [];
 
