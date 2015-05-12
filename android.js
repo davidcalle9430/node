@@ -58,7 +58,7 @@ io.on('connection', function (socket) {
           console.log('Error al enviar el mensaje');
         }
       });
-    */
+    
     io.to(clients[receiver]).emit('chat_message', msg);
      
       }else{
@@ -76,9 +76,12 @@ io.on('connection', function (socket) {
           console.log('Error al enviar el mensaje');
         }
       });
+       
       */
+    }
       io.to(clients[receiver]).emit('chat_message', msg);
-      }
+     
+
 
   });
    
