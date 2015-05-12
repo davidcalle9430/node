@@ -79,6 +79,7 @@ io.on('connection', function (socket) {
        
       */
     }
+      console.log("voy a enviar mensaje a "+ clients[receiver]);
       io.to(clients[receiver]).emit('chat_message', msg);
      
 
