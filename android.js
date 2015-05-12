@@ -35,10 +35,10 @@ io.on('connection', function (socket) {
 
   console.log("Se ha conectado un usuario");
     socket.on('chat_message', function(msg){
-      console.log("envían un mensaje de chat");
+      
       var message=msg;
       var receiver= message.receiver;
-    
+      console.log("envían un mensaje de chat para "+ receiver);
       
       if(typeof(clients[receiver]) != "undefined"){
       console.log("el receptor está conectado y se le envía el mensaje");
