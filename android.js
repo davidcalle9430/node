@@ -15,7 +15,6 @@ var connection = mySQL.createConnection({
   password : 'tgisispuj',
   database : 'rawrdbPrueba'
 });
-connection.connect();
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -35,49 +34,43 @@ io.on('connection', function (socket) {
 
   console.log("Se ha conectado un usuario");
     socket.on('chat_message', function(msg){
-      
+      connection.connect();
       var message=msg;
       var receiver= message.receiver;
       console.log("envían un mensaje de chat para "+ receiver);
-      
       if(typeof(clients[receiver]) != "undefined"){
-      console.log("el receptor está conectado y se le envía el mensaje");
-      
-
-      
-    
-      connection.query('INSERT INTO Message SET ?',
-      {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
-      ,function(err, rows, fields) {
-        if (!err){
-          console.log('Mensaje enviado y almacenado');
-          io.to(clients[receiver]).emit('chat_message', msg);
-        }else{
-          io.to(clients[receiver]).emit('chat_message', msg);
-          console.log(err);
-          console.log('Error al enviar el mensaje');
-        }
+        console.log("el receptor está conectado y se le envía el mensaje");
+        connection.query('INSERT INTO Message SET ?',
+        {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
+        ,function(err, rows, fields) {
+          if (!err){
+            console.log('Mensaje enviado y almacenado');
+            io.to(clients[receiver]).emit('chat_message', msg);
+          }else{
+            io.to(clients[receiver]).emit('chat_message', msg);
+            console.log(err);
+            console.log('Error al enviar el mensaje');
+          }
       });
     
-    //io.to(clients[receiver]).emit('chat_message', msg);
+   
      
       }else{
         
         console.log("mensaje a alguien no conectado");
-       connection.connect();
-      connection.query('INSERT INTO Message SET ?',
-      {status:'unread',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
-      ,function(err, rows, fields) {
-        if (!err){
-          console.log('Mensaje almacenado');
-        }else{
-
-          console.log(err);
-          console.log('Error al enviar el mensaje');
+        connection.connect();
+        connection.query('INSERT INTO Message SET ?',
+        {status:'unread',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
+          ,function(err, rows, fields) {
+              if (!err){
+            console.log('Mensaje almacenado');
+              }else{
+                console.log(err);
+                console.log('Error al enviar el mensaje');
         }
       });
        
-      
+      connection.end();
     }
       console.log("voy a enviar mensaje a "+ clients[receiver]);
       io.to(clients[receiver]).emit('chat_message', msg);
