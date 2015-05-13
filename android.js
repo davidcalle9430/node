@@ -34,7 +34,7 @@ io.on('connection', function (socket) {
 
   console.log("Se ha conectado un usuario");
     socket.on('chat_message', function(msg){
-      connection.connect();
+      
       var message=msg;
       var receiver= message.receiver;
       console.log("envían un mensaje de chat para "+ receiver);
@@ -70,7 +70,7 @@ io.on('connection', function (socket) {
         }
       });
        
-      connection.end();
+    
     }
       console.log("voy a enviar mensaje a "+ clients[receiver]);
       io.to(clients[receiver]).emit('chat_message', msg);
