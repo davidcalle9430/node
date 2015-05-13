@@ -45,7 +45,7 @@ io.on('connection', function (socket) {
       
 
       
-    /*
+    
       connection.query('INSERT INTO Message SET ?',
       {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
       ,function(err, rows, fields) {
@@ -59,10 +59,10 @@ io.on('connection', function (socket) {
         }
       });
     
-    io.to(clients[receiver]).emit('chat_message', msg);
+    //io.to(clients[receiver]).emit('chat_message', msg);
      
       }else{
-        /*
+        
         console.log("mensaje a alguien no conectado");
        connection.connect();
       connection.query('INSERT INTO Message SET ?',
@@ -77,7 +77,7 @@ io.on('connection', function (socket) {
         }
       });
        
-      */
+      
     }
       console.log("voy a enviar mensaje a "+ clients[receiver]);
       io.to(clients[receiver]).emit('chat_message', msg);
