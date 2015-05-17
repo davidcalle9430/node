@@ -63,8 +63,10 @@ io.on('connection', function (socket) {
         {status:'unread',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
           ,function(err, rows, fields) {
               if (!err){
-            console.log('Mensaje almacenado');
+                console.log('Mensaje almacenado');
+                io.to(clients[receiver]).emit('chat_message', msg);
               }else{
+                io.to(clients[receiver]).emit('chat_message', msg);
                 console.log(err);
                 console.log('Error al enviar el mensaje');
         }
@@ -72,8 +74,7 @@ io.on('connection', function (socket) {
        
     
     }
-      console.log("voy a enviar mensaje a "+ clients[receiver]);
-      io.to(clients[receiver]).emit('chat_message', msg);
+     
      
 
 
