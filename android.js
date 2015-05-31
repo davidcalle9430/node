@@ -98,7 +98,6 @@ io.on('connection', function (socket) {
   });
 
   socket.on('start_session', function(msg){
-  
     var m = msg;
     console.log("envían un mensaje start_session para "+ m.username);
     clients[m.username]=socket.id;
@@ -108,10 +107,20 @@ io.on('connection', function (socket) {
 
     for(key in activeSockets){
       return_list.push(activeSockets[key]);
-      console.log("está conetado " +activeSockets[key]);
+      console.log("está conectado " +activeSockets[key]);
     }
 
     io.emit('response_start_session', JSON.stringify({users:return_list}));
+  });
+
+  socket.on('hint', function(msg){
+    var m = msg.hint;
+    m= m+ "%"
+    pool.getConnection(function(err, connection){
+        connection.query('SELECT username FROM Pet WHERE username  LIKE ?', [m], function(err, results) {
+            console.log(results);
+        });
+     });
   });
   
 });
