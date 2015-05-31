@@ -116,7 +116,7 @@ io.on('connection', function (socket) {
   socket.on('hint', function(msg){
     var m = msg.hint;
     m= m+ "%";
-    console.log("Got a hint");
+    console.log("Got a hint "+m);
     pool.getConnection(function(err, connection){
         connection.query('SELECT username FROM Pet WHERE username  LIKE ?', [m], function(err, results) {
             console.log(results);
