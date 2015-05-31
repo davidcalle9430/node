@@ -1,4 +1,4 @@
- var express = require('express');
+var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
@@ -118,7 +118,7 @@ io.on('connection', function (socket) {
     m= m+ "%";
     console.log("Got a hint "+m);
     pool.getConnection(function(err, connection){
-        connection.query('SELECT username FROM Pet WHERE username  LIKE ?', [m], function(err, results) {
+        connection.query('SELECT p.username, ph.idPhoto FROM (Pet p INNER JOIN User o ON p.username = o.username) LEFT JOIN Photo ph ON ph.idPhoto =o.idPhoto_profile  WHERE p.username  LIKE ?', [m], function(err, results) {
             console.log(results);
             io.to(socket.id).emit('hint', {result:results});
         });
