@@ -25,25 +25,39 @@ var usernames = {};
 var numUsers = 0;
 
 
+/**
+ * 
+ * Función encargada de escuchar las peticiones de los clientes
+ *
+ */
+
+
 
 io.on('connection', function (socket) {
   console.log("conexión del socket "+ socket);
  
   console.log("Se ha conectado un usuario");
+
+
+/**
+ * Función que envía el mensaje al un receptor
+ * Almacena el mensaje en la base de datos 
+ * @param msg, mensaje en formato JSON que contiene
+ * el nombre de usuario del emisor, del receptor y el texto a enviar
+ */
   socket.on('chat_message', function(msg){
+    var message=msg;
+    var receiver= message.receiver;
+    console.log("envían un mensaje de chat para "+ receiver);
+        if(typeof(clients[receiver]) != "undefined"){
+          console.log("el receptor está conectado y se le envía el mensaje");
 
-  var message=msg;
-  var receiver= message.receiver;
-  console.log("envían un mensaje de chat para "+ receiver);
-      if(typeof(clients[receiver]) != "undefined"){
-        console.log("el receptor está conectado y se le envía el mensaje");
 
-
-         pool.getConnection(function(err, connection){
-         connection.query('INSERT INTO Message SET ?',
-        {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
-        ,function(err, rows, fields) {
-          if (!err){
+          pool.getConnection(function(err, connection){
+          connection.query('INSERT INTO Message SET ?',
+          {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
+          ,function(err, rows, fields) {
+            if (!err){
             console.log('Mensaje enviado y almacenado');
             io.to(clients[receiver]).emit('chat_message', msg);
           }else{
@@ -77,7 +91,11 @@ io.on('connection', function (socket) {
 
     }
   });
-  
+/**
+ * Función que envía una notificacion al receptor
+ * @param msg, notificación en formato JSON que contiene
+ * el nombre de usuario del emisor, del receptor y el texto a enviar
+ */
 
   socket.on('notification', function(msg){
     
@@ -86,7 +104,10 @@ io.on('connection', function (socket) {
     var receiver= message.receiver;
     io.to(clients[receiver]).emit('notification', msg);
   });
-
+/**
+ * Función que desconecta a un cliente del char
+ * Borra el socket asociado al nombre de usuario 
+ */
   socket.once('disconnect', function(){
    
     var username = activeSockets[socket.id];
@@ -96,7 +117,12 @@ io.on('connection', function (socket) {
     delete activeSockets[socket.id];
     socket.broadcast.emit('disconnect',{user:username});
   });
-
+/**
+ * Función busca un usuario cuyo nombre contenga una subcadena
+ * envía los usuarios cuyos nombres empiecen por la subcadena
+ * @param msg, información básica del usuario
+ * contiene parte del nombre del usuario
+ */
   socket.on('start_session', function(msg){
     var m = msg;
     console.log("envían un mensaje start_session para "+ m.username);
@@ -112,7 +138,11 @@ io.on('connection', function (socket) {
 
     io.emit('response_start_session', JSON.stringify({users:return_list}));
   });
-
+/**
+ * Función que identifica a un usuario y le asigna un socker
+ * @param msg, información básica del usuario
+ * contiene el nombre del usuario que se va a autenticar
+ */
   socket.on('hint', function(msg){
     var m = msg.hint;
     m= m+ "%";
