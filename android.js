@@ -61,7 +61,7 @@ io.on('connection', function (socket) {
         console.log("mensaje a alguien no conectado");
         pool.getConnection(function(err, connection){
          connection.query('INSERT INTO Message SET ?',
-        {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
+        {status:'unread',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
         ,function(err, rows, fields) {
           if (!err){
             console.log('Mensaje enviado y almacenado');
