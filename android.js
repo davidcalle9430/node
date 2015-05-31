@@ -28,7 +28,7 @@ var numUsers = 0;
 /**
  * 
  * Función encargada de escuchar las peticiones de los clientes
- *
+ * @ requierement 18 
  */
 
 
@@ -41,7 +41,10 @@ io.on('connection', function (socket) {
 
 /**
  * Función que envía el mensaje al un receptor
- * Almacena el mensaje en la base de datos 
+ * Almacena el mensaje en la base de datos
+ * @ requierement 18 
+ * @ requierement 19
+ * @ requierement 19
  * @param msg, mensaje en formato JSON que contiene
  * el nombre de usuario del emisor, del receptor y el texto a enviar
  */
@@ -93,6 +96,9 @@ io.on('connection', function (socket) {
 /**
  * Función que envía una notificacion al receptor
  * @param msg, notificación en formato JSON que contiene
+ * @ requierement 07
+ * @ requierement 13
+ * @ requierement 34
  * el nombre de usuario del emisor, del receptor y el texto a enviar
  */
 
@@ -104,8 +110,9 @@ io.on('connection', function (socket) {
     io.to(clients[receiver]).emit('notification', msg);
   });
 /**
- * Función que desconecta a un cliente del char
- * Borra el socket asociado al nombre de usuario 
+ * Función que desconecta a un cliente del chat
+ * Borra el socket asociado al nombre de usuario
+ * @ requierement 18  
  */
   socket.once('disconnect', function(){
    
@@ -121,6 +128,7 @@ io.on('connection', function (socket) {
  * envía los usuarios cuyos nombres empiecen por la subcadena
  * @param msg, información básica del usuario
  * contiene parte del nombre del usuario
+ * @ requierement 18 
  */
   socket.on('start_session', function(msg){
     var m = msg;
@@ -141,6 +149,7 @@ io.on('connection', function (socket) {
  * Función que identifica a un usuario y le asigna un socker
  * @param msg, información básica del usuario
  * contiene el nombre del usuario que se va a autenticar
+* @ requierement 33
  */
   socket.on('hint', function(msg){
     var m = msg.hint;
