@@ -53,9 +53,8 @@ io.on('connection', function (socket) {
           console.log("el receptor está conectado y se le envía el mensaje");
 
 
-          pool.getConnection(function(err, connection){
-          if(err) { console.log(err); callback(true); return;}
-          connection.query('INSERT INTO Message SET ?',
+
+          pool.query('INSERT INTO Message SET ?',
           {status:'read',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
           ,function(err, rows, fields) {
             if (!err){
@@ -68,15 +67,13 @@ io.on('connection', function (socket) {
           }
       });
 
-     });
+
 
 
       }else{
         
-        console.log("mensaje a alguien no conectado");
-        pool.getConnection(function(err, connection){
-        if(err) { console.log(err); callback(true); return;}  
-         connection.query('INSERT INTO Message SET ?',
+       
+        pool.query('INSERT INTO Message SET ?',
         {status:'unread',text: message.message, username_receiver:message.receiver, username_sender:message.sender}
         ,function(err, rows, fields) {
           if (!err){
@@ -88,7 +85,7 @@ io.on('connection', function (socket) {
             console.log('Error al enviar el mensaje');
           }
       });
-     });
+  
 
 
     }
@@ -149,13 +146,12 @@ io.on('connection', function (socket) {
     var m = msg.hint;
     m= m+ "%";
     console.log("Got a hint "+m);
-    pool.getConnection(function(err, connection){
-        if(err) { console.log(err); callback(true); return;}
-        connection.query('SELECT p.username, ph.path FROM (Pet p INNER JOIN User o ON p.username = o.username) LEFT JOIN Photo ph ON ph.idPhoto =o.idPhoto_profile  WHERE p.username  LIKE ?', [m], function(err, results) {
+
+        pool.query('SELECT p.username, ph.path FROM (Pet p INNER JOIN User o ON p.username = o.username) LEFT JOIN Photo ph ON ph.idPhoto =o.idPhoto_profile  WHERE p.username  LIKE ?', [m], function(err, results) {
             console.log(results);
             io.to(socket.id).emit('hint', {result:results});
         });
-     });
+
   });
   
 });
