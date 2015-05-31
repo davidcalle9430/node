@@ -120,6 +120,7 @@ io.on('connection', function (socket) {
     pool.getConnection(function(err, connection){
         connection.query('SELECT username FROM Pet WHERE username  LIKE ?', [m], function(err, results) {
             console.log(results);
+            io.to(socket.id).emit('hint', {result:results});
         });
      });
   });
