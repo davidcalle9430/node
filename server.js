@@ -1,25 +1,18 @@
-var server = require('websocket').server,
-    http = require('http');
-var cantidad=0;
-var socket = new server({
-    httpServer: http.createServer().listen(1337)
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+app.get('/', function(req, res){
+  res.sendfile('index.html');
 });
 
-socket.on('request', function(request) {
-    var connection = request.accept(null, request.origin);
-    connection.on('message', function(message) {
-        console.log(message.utf8Data);
-        connection.sendUTF('hello');
-        setTimeout(function() {
-            connection.sendUTF('Hola, eres el usuario '+ cantidad);
-            cantidad++;
-        }, 1000);
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('chat_message', function(msg){
+    io.emit('chat_message', msg);
+  });
+});
 
-
-
-    });
-
-    connection.on('close', function(connection) {
-        console.log('connection closed');
-    });
-}); 
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
